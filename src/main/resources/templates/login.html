@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="/iview/css/iview.css">
+    <style>
+        body{
+            background:#515a6e;
+        }
+        card{
+
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <card style="width:350px; margin-left: auto; margin-right: auto;margin-top: 20%;" >
+        <p slot="title">
+            <icon type="ios-film-outline"></icon>
+            欢迎登录
+        </p>
+        <ul>
+            <i-form ref="formInline" :model="formInline" :rules="ruleInline" >
+                <form-item >
+                    <i-input type="text" v-model="formInline.username" placeholder="Username">
+                        <icon type="ios-person-outline" slot="prepend"></icon>
+                    </i-input>
+                </form-item>
+                <form-item >
+                    <i-input type="password" v-model="formInline.password" placeholder="Password">
+                        <icon type="ios-lock-outline" slot="prepend"></icon>
+                    </i-input>
+                </form-item>
+                <form-item style="float:right">
+                    <i-button type="primary" @click="handleSubmit('formInline')">提交</i-button>
+                </form-item>
+                <div style="clear: both;"></div>
+            </i-form>
+            <!--<form action="/sample/login" method="post">-->
+                <!--<input type="text" name="username" value="">-->
+                <!--<input type="password" name="password" value="">-->
+                <!--<input type="submit" value="submit">-->
+            <!--</form>-->
+        </ul>
+    </card>
+
+</div>
+    <script src="/vue/vue.js"></script>
+    <script src="/iview/js/iview.js"></script>
+    <script src="/axios/axios.min.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                formInline: {
+                    username: '',
+                    password: ''
+                },
+                ruleInline: {
+                    user: [
+                        { required: true, message: 'Please fill in the user name', trigger: 'blur' }
+                    ],
+                    password: [
+                        { required: true, message: 'Please fill in the password.', trigger: 'blur' },
+                        { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
+                    ]
+                }
+            },
+            methods: {
+                handleSubmit(name) {
+                    this.$refs[name].validate((valid) => {
+                        if (valid) {
+                            this.$Message.success('Success!');
+                        } else {
+                            this.$Message.error('Fail!');
+                        }
+                    })
+                    var userinfo =  this.formInline
+                    console.log(userinfo)
+
+
+                    axios.post('/sample/data/login', userinfo)
+                        .then(res => {
+                        var messge = res.data.message
+                        if(messge === "404"){
+                            this.$Message.error('Not Find User!! Check username or password Please!!');
+                        }else{
+                            location.replace("/");
+                        }
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

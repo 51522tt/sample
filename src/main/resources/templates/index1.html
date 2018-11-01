@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/iview/css/iview.css">
+    <title>样品库管理</title>
+    <style>
+        #table{padding: 32px;}
+
+        .layout{
+            border: 1px solid #d7dde4;
+            background: #f5f7f9;
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .layout-logo{
+            width: 100px;
+            height: 30px;
+            background: #5b6270;
+            border-radius: 3px;
+            float: left;
+            position: relative;
+            top: 15px;
+            left: 20px;
+        }
+
+        .layout-nav{
+            width: 420px;
+            margin: 0 auto;
+            margin-right: 20px;
+        }
+        .layout-footer-center{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="app" >
+    <div class="layout">
+        <layout>
+            <i-header>
+                <i-menu mode="horizontal" theme="dark" active-name="1">
+                    <div class="layout-logo"></div>
+                    <div class="layout-nav">
+                        <menu-item name="1" >
+                            <icon type="ios-navigate"></icon>
+                            <span href="javascript:;"  @click="getNewSample">新到样品</span>
+                        </menu-item>
+                        <menu-item name="2">
+                            <icon type="ios-keypad"></icon>
+                            <span href="javascript:;"  @click="getSample">已到样品</span>
+                        </menu-item>
+                    </div>
+                </i-menu>
+            </i-header>
+            <i-content :style="{padding: '0 50px'}">
+                <breadcrumb :style="{margin: '20px 0'}">
+                    <breadcrumb-item>Home</breadcrumb-item>
+                </breadcrumb>
+                <card>
+                    <div id="table" style="min-height: 200px;">
+                        <i-table border :columns="columns" :data="data"></i-table>
+                    </div>
+                    <div>
+                        <page :total="40" size="small" show-elevator show-sizer style="margin-left: auto;margin-right: auto" />
+                    </div>
+                </card>
+            </i-content>
+            <i-footer class="layout-footer-center">2011-2016 &copy; insunny</i-footer>
+        </layout>
+    </div>
+</div>
+<script src="/vue/vue.js"></script>
+<script src="/iview/js/iview.js"></script>
+<script src="/axios/axios.min.js"></script>
+<script th:inline="javascript">
+    var vm=new Vue({
+        el: "#app",
+        data: {
+            theme1: 'dark',
+            columns: [
+                {
+                    title: 'ASIN',
+                    key: 'asin',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('icon', {
+                                props: {
+                                    type: 'person'
+                                }
+                            }),
+                            h('strong', params.row.asin)
+                        ]);
+                    }
+                },
+                {
+                    title: 'SKU',
+                    key:'sku'
+                },
+                {
+                    title: '名称',
+                    key: 'name'
+                },
+                {
+                    title: '时间',
+                    key: 'dateTime'
+                }
+                ,
+                {
+                    title: '操作',
+                    key: 'action',
+                    width: 150,
+                    align: 'center',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('Button', {
+                                props: {
+                                    type: 'primary',
+                                    size: 'small'
+                                },
+                                style: {
+                                    marginRight: '5px'
+                                },
+                                on: {
+                                    click: () => {
+                                        vm.show(params.index)
+                                    }
+                                }
+                            }, '查看'),
+                            h('Button', {
+                                props: {
+                                    type: 'error',
+                                    size: 'small'
+                                },
+                                on: {
+                                    click: () => {
+                                        console.log(JSON.stringify(params.row))
+                                        vm.remove(params.index,params.row)
+                                    }
+                                }
+                            }, '确认')
+                        ]);
+                    }
+                }
+            ],
+            data:[]
+        },
+        methods: {
+            show(index) {
+                this.$Modal.info({
+                    title: 'sample Info',
+                    content: `asin：${this.data[index].asin}<br>sku：${this.data[index].sku}<br>name：${this.data[index].name}<br>扫描时间：${this.data[index].dateTime}`
+                })
+            },
+            remove(index,sample){
+                console.log(sample)
+                new Promise((resolve, reject) => {
+                    axios.delete('/sample/data/newsample', {
+                        params: sample
+                    }).then(response => {
+                        resolve(response)
+                    })
+                })
+                    .then(response => {
+                        console.log(response)
+
+                    }).catch(err => {
+                });
+
+                this.data.splice(index, 1);
+            },
+            getNewSample(){
+                var vue = this;
+                axios.get('/sample/data/newsamples')
+                    .then(function (response) {
+                        vue.data = response.data
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            getSample(){
+                var vue = this;
+                axios.get('/sample/data/samples')
+                    .then(function (response) {
+                        vue.data = response.data
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        },
+        created(){
+            this.getNewSample()
+        }
+    })
+
+</script>
+</body>
+
+</html>
+
+

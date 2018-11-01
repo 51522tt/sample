@@ -1,0 +1,15 @@
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:mysql://192.168.7.8:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: jxc
+    password: jxc123
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 80
