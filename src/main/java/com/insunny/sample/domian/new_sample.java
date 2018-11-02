@@ -1,6 +1,4 @@
 package com.insunny.sample.domian;
-
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Entity;
@@ -25,12 +23,20 @@ import java.util.Date;
     private String asin;
     private String sku;
     private String name;
+    private String location;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date dateTime;
     public Date getDateTime() {
         return dateTime;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getFnsku() {
         return fnsku;
@@ -106,7 +112,8 @@ import java.util.Date;
                 ", asin='" + asin + '\'' +
                 ", sku='" + sku + '\'' +
                 ", name='" + name + '\'' +
-                ", dateTime='" + dateTime + '\'' +
+                ", location='" + location + '\'' +
+                ", dateTime=" + dateTime +
                 '}';
     }
 

@@ -16,6 +16,15 @@ import java.util.Date;
     private String sku;
     private String name;
     private String dateTime;
+    private String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getDateTime() {
         return dateTime;
@@ -74,6 +83,7 @@ import java.util.Date;
                 ", sku='" + sku + '\'' +
                 ", name='" + name + '\'' +
                 ", dateTime='" + dateTime + '\'' +
+                ", location='" + location + '\'' +
                 '}';
     }
 }

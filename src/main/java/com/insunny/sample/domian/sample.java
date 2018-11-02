@@ -26,9 +26,17 @@ import java.util.Objects;
     private String asin;
     private String sku;
     private String name;
+    private String location;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date dateTime;
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getFnsku() {
         return fnsku;
@@ -108,7 +116,8 @@ import java.util.Objects;
                 ", asin='" + asin + '\'' +
                 ", sku='" + sku + '\'' +
                 ", name='" + name + '\'' +
-                ", dateTime='" + dateTime + '\'' +
+                ", location='" + location + '\'' +
+                ", dateTime=" + dateTime +
                 '}';
     }
 
@@ -124,8 +133,12 @@ import java.util.Objects;
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         sample sample = (sample) o;
         return Objects.equals(sku, sample.sku);
 

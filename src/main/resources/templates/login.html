@@ -34,7 +34,7 @@
                     </i-input>
                 </form-item>
                 <form-item style="float:right">
-                    <i-button type="primary" @click="handleSubmit('formInline')">提交</i-button>
+                    <i-button type="primary" @click="handleSubmit('formInline')" >提交</i-button>
                 </form-item>
                 <div style="clear: both;"></div>
             </i-form>
@@ -68,6 +68,14 @@
                     ]
                 }
             },
+            mounted: function(){
+                let self = this;
+                document.onkeyup = function (ev) {
+                    if (ev.keyCode === 13) {
+                        self.handleSubmit('formInline');
+                    }
+                }
+            },
             methods: {
                 handleSubmit(name) {
                     this.$refs[name].validate((valid) => {
@@ -79,7 +87,6 @@
                     })
                     var userinfo =  this.formInline
                     console.log(userinfo)
-
 
                     axios.post('/sample/data/login', userinfo)
                         .then(res => {

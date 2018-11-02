@@ -106,13 +106,15 @@ public class SampleDataController {
                       @RequestParam(value = "asin") String asin,
                       @RequestParam(value = "sku") String sku,
                       @RequestParam(value = "name") String name,
-                      @RequestParam(value = "dateTime") String dateTime) {
+                      @RequestParam(value = "dateTime") String dateTime,
+                      @RequestParam(value = "location") String location) {
         sample sample = new sample();
         sample.setId(id);
         sample.setFnsku(fnsku);
         sample.setAsin(asin);
         sample.setSku(sku);
         sample.setName(name);
+        sample.setLocation(location);
         System.out.println(dateTime);
         sample.setDateTime(dateTime);
         System.out.println("即将"+sample);

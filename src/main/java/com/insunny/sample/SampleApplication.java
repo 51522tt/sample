@@ -52,17 +52,17 @@ public class SampleApplication {
       * @return
       * @throws SQLException
       */
-     @Bean
-     public DruidDataSource druidDataSource() throws SQLException {
-         DruidDataSource druidDataSource = new DruidDataSource();
-         druidDataSource.setUsername("jxc");
-         druidDataSource.setPassword("jxc123");
-         druidDataSource.setUrl("jdbc:mysql://192.168.7.8:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
-         druidDataSource.setMaxActive(100);
-         druidDataSource.setFilters("stat,wall");
-         druidDataSource.setInitialSize(10);
-         return druidDataSource;
-     }
+//     @Bean
+//     public DruidDataSource druidDataSource() throws SQLException {
+//         DruidDataSource druidDataSource = new DruidDataSource();
+//         druidDataSource.setUsername("jxc");
+//         druidDataSource.setPassword("jxc123");
+//         druidDataSource.setUrl("jdbc:mysql://192.168.7.8:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
+//         druidDataSource.setMaxActive(100);
+//         druidDataSource.setFilters("stat,wall");
+//         druidDataSource.setInitialSize(10);
+//         return druidDataSource;
+//     }
     @Bean
     public OpenEntityManagerInViewFilter openEntityManagerInViewFilter() {
         return new OpenEntityManagerInViewFilter();
