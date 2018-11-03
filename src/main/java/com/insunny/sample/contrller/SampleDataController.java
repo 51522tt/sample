@@ -97,6 +97,7 @@ public class SampleDataController {
     "dateTime": "2018-10-10T05:49:00.000+0000",
     "img": "http://img.manage.com/amimages/CHA-SHOU2-UK-FBA/400_400/1.jpg",
     "_index": 0,
+
     "_rowKey": 3
 * */
     @DeleteMapping("/newsample")
@@ -298,6 +299,19 @@ public class SampleDataController {
         List<sample> samples = newSampleDao.vagueQuery(accounts, q,sdf.parse(start),endDate);
         map.put("samples",samples);
         return map;
+    }
+
+    @GetMapping("/newPaySample")
+    public Map<String,Object> newPaySample(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "start" , defaultValue = "1900-1-1 00:00:00") String start,
+            @RequestParam(value = "end" , defaultValue = "2999-1-1 00:00:00") String end
+    ){
+        HashMap<String, Object> map = new HashMap<>(16);
+        map.put("newPaySample","200");
+        return map;
+
     }
 
 }
